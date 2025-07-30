@@ -10,6 +10,7 @@ export default defineConfig({
     plugins: [externalizeDepsPlugin()]
   },
   renderer: {
+    input: 'src/renderer/src/main.jsx',
     resolve: {
       alias: {
         '@renderer': resolve('src/renderer/src')
