@@ -18,3 +18,4 @@ if (process.contextIsolated) {
   window.electron = electronAPI
   window.api = api
 }
+

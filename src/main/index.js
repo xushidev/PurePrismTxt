@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -11,6 +11,7 @@ function createWindow() {
     height: 670,
     show: false,
     autoHideMenuBar: true,
+    frame: false,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
@@ -58,8 +59,31 @@ app.whenReady().then(() => {
     return 'Hello from main process!'
   })
 
+  ipcMain.handle('select-dir', async (event, operation) => {
+            const properties = operation === 'export' ? ['openDirectory', 'createDirectory'] : ['openDirectory'];
+            const result = await dialog.showOpenDialog({
+                properties: properties
+            });
+            if (result.canceled) {
+                return null;
+            } else {
+                return result.filePaths[0];
+            }
+        });
+
+  // Exit
   ipcMain.on('exit', () => {
     exit(0);
+  })
+
+  // Maximise or Unmaximise
+  ipcMain.on('maximise', () => {
+    const window = BrowserWindow.getFocusedWindow();
+    if (!window.isMaximized()) {
+      window.maximize();
+    } else {
+      window.unmaximize();
+    }
   })
 
   createWindow()
