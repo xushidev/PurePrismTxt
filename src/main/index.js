@@ -3,6 +3,12 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { exit } from 'process'
+import * as fs from 'node:fs';
+import { glob } from 'glob'
+import { resolve } from 'path';
+import path from 'node:path'
+
+
 
 function createWindow() {
   // Create the browser window.
@@ -59,17 +65,33 @@ app.whenReady().then(() => {
     return 'Hello from main process!'
   })
 
+  // Get changes to editor
+  ipcMain.handle('changes', (event, input) => {
+    console.log(input);
+  })
+
+  // Select directory
   ipcMain.handle('select-dir', async (event, operation) => {
             const properties = operation === 'export' ? ['openDirectory', 'createDirectory'] : ['openDirectory'];
             const result = await dialog.showOpenDialog({
                 properties: properties
             });
+            console.log(result)
+            
+            const files = await glob(result.filePaths[0] + '/**/*.txt')
+            console.log(files)
+            
+            console.log(path.resolve(files[0]))
+
+
             if (result.canceled) {
                 return null;
             } else {
                 return result.filePaths[0];
             }
         });
+
+  
 
   // Exit
   ipcMain.on('exit', () => {
@@ -84,7 +106,13 @@ app.whenReady().then(() => {
     } else {
       window.unmaximize();
     }
-  })
+  });
+
+  // Minimise
+  ipcMain.on('minimise', () => {
+    const window = BrowserWindow.getFocusedWindow();
+    window.minimize();
+  });
 
   createWindow()
 
@@ -106,3 +134,4 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+

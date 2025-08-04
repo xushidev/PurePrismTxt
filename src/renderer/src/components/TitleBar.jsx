@@ -1,5 +1,6 @@
 import { Button, Container, Flex, HStack, useColorMode } from "@chakra-ui/react";
-import { CgMaximize } from "react-icons/cg";
+import { CgMaximize, CgMinimize } from "react-icons/cg";
+import { FaWindowMinimize } from "react-icons/fa6";
 import { GoX } from "react-icons/go";
 import { IoMoon } from "react-icons/io5";
 import { LuSun } from "react-icons/lu";
@@ -7,9 +8,9 @@ import { LuSun } from "react-icons/lu";
 
 // Rafce
 function TitleBar() {
-    const exit = () => window.electron.ipcRenderer.send('exit')
-    const max = () => window.electron.ipcRenderer.send('maximise')
-    
+    const exit = () => window.electron.ipcRenderer.send('exit');
+    const max = () => window.electron.ipcRenderer.send('maximise');
+    const min = () => window.electron.ipcRenderer.send('minimise');
 
     const { colorMode, toggleColorMode } = useColorMode();
     return (
@@ -34,8 +35,16 @@ function TitleBar() {
                     </Button>
                 </HStack>
                 {/*Insert title here*/}
-                <HStack>
-                    {/*Insert exit, minimise and full screen button here*/}
+                <HStack
+                    spacing={0}
+                >
+                    <Button
+                        borderRadius={"0"}
+                        onClick={min}
+                        sx={{ WebkitAppRegion: "no-drag" }}
+                        >
+                        <FaWindowMinimize/>
+                    </Button>
                     <Button
                         borderRadius={"0"}
                         onClick={max}
