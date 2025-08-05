@@ -15,6 +15,8 @@ function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 900,
     height: 670,
+    minWidth: 900,
+    minHeight: 670,
     show: false,
     autoHideMenuBar: true,
     frame: false,
@@ -66,9 +68,21 @@ app.whenReady().then(() => {
   })
 
   // Get changes to editor
-  ipcMain.handle('changes', (event, input) => {
-    console.log(input);
-  })
+  ipcMain.handle('changes', async (event, content, filePath) => {
+  if (!filePath || typeof filePath !== 'string') {
+    console.error('Invalid file path');
+    return { success: false, error: 'Invalid file path' };
+  }
+
+  try {
+    await fs.promises.writeFile(filePath, content, 'utf-8');
+    console.log(`File saved: ${filePath}`);
+    return { success: true };
+  } catch (err) {
+    console.error('Error writing file:', err);
+    return { success: false, error: err.message };
+  }
+});
 
   // Select directory
   ipcMain.handle('select-dir', async (event, operation) => {
@@ -80,14 +94,16 @@ app.whenReady().then(() => {
             
             const files = await glob(result.filePaths[0] + '/**/*.txt')
             console.log(files)
-            
-            console.log(path.resolve(files[0]))
-
+            let abs_files = [];
+            files.forEach(file => {
+              console.log(path.resolve(file))
+              abs_files.push(path.resolve(file))
+            });
 
             if (result.canceled) {
                 return null;
             } else {
-                return result.filePaths[0];
+                return abs_files;
             }
         });
 

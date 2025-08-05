@@ -1,4 +1,4 @@
-import { Box, Text, Textarea, VStack } from '@chakra-ui/react'
+import { Box, Button, Text, Textarea, VStack } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 
 const TxtEditor = ({ filePath }) => {
@@ -20,7 +20,7 @@ const TxtEditor = ({ filePath }) => {
     }, [filePath])
 
     function sendChanges(input) {
-        window.electron.ipcRenderer.invoke('changes', input);
+        window.electron.ipcRenderer.invoke('changes', input, filePath);
     }
 
     let handleInputChange = (e) => {
@@ -144,7 +144,7 @@ const TxtEditor = ({ filePath }) => {
                 value={value}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                placeholder='Here is a sample placeholder'
+                placeholder='placeholder!'
                 size='md'
                 resize={"none"}
                 variant={"unstyled"}

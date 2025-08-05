@@ -1,44 +1,16 @@
 import { Box, Button, Center, Container, Flex, VStack } from '@chakra-ui/react'
 import React from 'react'
 
-const FileList = ({ onSelectFile }) => {
-    const files = [
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx',
-        'C:\\Users\\Xushi\\Documents\\GitHub\\Mayi\\src\\renderer\\src\\components\\TxtEditor.jsx'
-    ]
+const FileList = ({ onSelectFile , filesPath }) => {
+    const files = Array.isArray(filesPath) ? filesPath : [];
 
     const getFileName = (filePath) => filePath.split(/[/\\]/).pop()
 
     return (
         <Flex direction="column">
             <Box
-                m={"3"}
-                maxH={"100%"}
+                m={"2"}
+                maxH={"95%"}
                 overflowY="auto"
                 sx={{
                     '::-webkit-scrollbar': {
@@ -67,10 +39,11 @@ const FileList = ({ onSelectFile }) => {
             >
                 <VStack 
                     align="start"
-                    spacing={1}
+                    spacing={-1}
                 >
                     {files.map((file) => (
                         <Button
+                            borderRadius={0}
                             paddingX={"20"}
                             size="sm"
                             key={file} 
@@ -79,6 +52,7 @@ const FileList = ({ onSelectFile }) => {
                             flexGrow={0}
                             whiteSpace="nowrap"
                             overflow="hidden"
+                            w={"100%"}
                             textOverflow="ellipsis"
                         >
                             <Center>

@@ -3,18 +3,19 @@ import React from 'react'
 import TxtEditor from './TxtEditor';
 import FileList from './FileList';
 
-const FileExplorer = () => {
+const FileExplorer = ({ files }) => {
     const [selectedFilePath, setSelectedFilePath] = React.useState('');
 
     return (
         <Box
-            h={"95%"}
+            h={"94%"}
         >
             <Flex
                 h={"100%"}
             >
                 <FileList 
                     onSelectFile={setSelectedFilePath} 
+                    filesPath={files}
                 />
                 <TxtEditor 
                     filePath={selectedFilePath}
