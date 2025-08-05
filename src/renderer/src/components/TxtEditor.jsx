@@ -1,8 +1,23 @@
-import { Box, Text, Textarea } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Text, Textarea, VStack } from '@chakra-ui/react'
+import React, { useEffect } from 'react'
 
-const TxtEditor = () => {
+const TxtEditor = ({ filePath }) => {
+    
     let [value, setValue] = React.useState('')
+
+    // ⬇ Fetch file content when filePath changes
+    useEffect(() => {
+        if (!filePath) return;
+
+        window.electron.ipcRenderer.invoke('read-file', filePath)
+            .then((content) => {
+                setValue(content || '')
+            })
+            .catch((err) => {
+                console.error('Failed to read file:', err)
+                setValue('// Failed to load file.')
+            })
+    }, [filePath])
 
     function sendChanges(input) {
         window.electron.ipcRenderer.invoke('changes', input);
@@ -96,11 +111,11 @@ const TxtEditor = () => {
 
 
     return (
-        <Box>{ /*
-            <Text 
-                mb='8px'
-                whiteSpace="pre"
-            >Value: {value}</Text> */}
+        <Box
+            display="flex"
+            w={"100%"}
+            m={"3"}
+        >
             <Textarea
                 sx={{
                     '::-webkit-scrollbar': {
@@ -126,7 +141,6 @@ const TxtEditor = () => {
                         color: '#ffffff',
                     },
                 }}
-                height={"70vh"}
                 value={value}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
