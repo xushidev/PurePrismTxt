@@ -18,5 +18,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Build app
+        run: npm run build
+
       - name: Build App for MacOS
         run: npm run build:mac
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: MacOS-artifacts
+          path: dist/

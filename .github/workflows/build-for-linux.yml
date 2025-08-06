@@ -1,11 +1,11 @@
-name: Build App for Windows
+name: Build App for Linux
 
 on:
   workflow_dispatch:
 
 jobs:
   build-mac:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -18,5 +18,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Build app
+        run: npm run build
+
       - name: Build App for Windows
-        run: npm run build:win
+        run: npm run build:linux
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Linux-artifacts
+          path: dist/
