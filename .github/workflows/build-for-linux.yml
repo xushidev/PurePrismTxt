@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-mac:
+  build-linux:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -25,7 +25,7 @@ jobs:
         run: npm run build:linux
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Linux-artifacts
           path: dist/
