@@ -1,4 +1,4 @@
-<div style="display: flex; justify-content: center;">
+<div align="center">
     <img src="./resources/icon.png" width="300" alt="PurePrism Icon">
 </div>
 
