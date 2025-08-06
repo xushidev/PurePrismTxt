@@ -20,6 +20,7 @@ function createWindow() {
     show: false,
     autoHideMenuBar: true,
     frame: false,
+    icon: path.join(__dirname, '../../resources/icon.png'),
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
